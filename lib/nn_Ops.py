@@ -192,7 +192,7 @@ class data_collector:
     def update(self, var):
         if not np.isnan(var):
             self.collector.append(var)
-            print(self.tag + ' : %f' % var)
+            # print(self.tag + ' : %f' % var)
             if np.shape(self.collector)[0] >= 64:#FLAGS.batch_per_epoch:
                 self.mean = np.mean(self.collector)
                 self.collector = []

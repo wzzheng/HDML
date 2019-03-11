@@ -1,4 +1,3 @@
-
 from datasets import data_provider
 from lib import GoogleNet_Model, Loss_ops, nn_Ops, Embedding_Visualization, HDML, evaluation
 import copy
@@ -228,6 +227,7 @@ def main(_):
                     eval_summary.value.add(tag='Recall@%d test' % neighbours[i], simple_value=recalls_te[i])
                 J_m_loss.write_to_tfboard(eval_summary)
                 wd_Loss.write_to_tfboard(eval_summary)
+                eval_summary.value.add(tag='learning_rate', simple_value=_lr.get_lr())
                 if FLAGS.Apply_HDML:
                     J_syn_loss.write_to_tfboard(eval_summary)
                     J_metric_loss.write_to_tfboard(eval_summary)
