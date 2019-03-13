@@ -3,6 +3,9 @@ Implementation of Hardness-Aware Deep Metric Learning in Tensorflow.
 
 - HDML:  [Hardness-Aware Deep Metric Learning](http://.pdf)
 
+Please use the citation provided below if it is useful to your research:
+
+Wenzhao Zheng, Zhaodong Chen, Jiwen Lu, and Jie Zhou, Hardness-Aware Deep Metric Learning, ??
 
 # Dependencies
 ```bash
