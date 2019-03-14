@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Tue Jan 10 00:15:50 2017
 
-@author: sakurai
-"""
 
 import collections
 import numpy as np
