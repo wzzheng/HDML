@@ -27,7 +27,7 @@ pip install tensorflow==1.10.0
 # Dataset
 Stanford Cars Dataset (Cars196)
 
-可从官网 (https://ai.stanford.edu/~jkrause/cars/car_dataset.html) 或者使用lib/datasets/cars196_downloader.py文件下载，并使用cars196_converter.py转化为hdf5文件，放在datasets/data/cars196/cars196.hdf5
+Download from (https://ai.stanford.edu/~jkrause/cars/car_dataset.html) or use datasets/cars196_downloader.py，and convert to hdf5 file using cars196_converter.py，put it in datasets/data/cars196/cars196.hdf5.
 
 # Usage
 ## For Cars196 dataset:
