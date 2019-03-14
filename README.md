@@ -1,9 +1,9 @@
 # Hardness-Aware Deep Metric Learning
 Implementation of Hardness-Aware Deep Metric Learning (CVPR 2019 Oral) in Tensorflow.
 
-Work in progress.
-
 - HDML:  [Hardness-Aware Deep Metric Learning](https://arxiv.org/abs/1903.05503.pdf)
+
+Work in progress.
 
 Please use the citation provided below if it is useful to your research:
 
