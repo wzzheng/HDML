@@ -4,7 +4,7 @@ import scipy.io
 
 
 """
-The GoogLeNet Net Model used in NIPS 2018
+The GoogLeNet Net Model used in HDML
 It should be applied as following:
 google_net_model = GoogleNet_Model.GoogleNet_Model(model_dir='')
 embedding = google_net_model.forward(x)
