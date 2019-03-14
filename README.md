@@ -33,6 +33,9 @@ Stanford Cars Dataset (Cars196)
 
 -- Put it in datasets/data/cars196/cars196.hdf5.
 
+# Pretrained model
+GoogleNet V1 pretrained model can be downloaded from (https://github.com/Wei2624/Feature_Embed_GoogLeNet)
+
 # Usage
 ## For Cars196 dataset:
 
