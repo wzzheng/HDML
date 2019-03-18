@@ -247,6 +247,52 @@ def triplet_semihard_loss(labels, embeddings, margin=1.0):
     return _triplet_loss
 
 
+def new_npair_loss(labels, embedding_anchor, embedding_positive, reg_lambda, equal_shape=True, half_batch_size=64):
+    """
+    N-pair loss used in HDML, the inputs are constructed into N/2 N/2+1 pairs
+    :param labels: A 1-d tensor of size [batch_size], which presents the sparse label of the embedding
+    :param embedding_anchor: A 4-d tensor of size [batch_size/2, H, W, C], the embedding of anchor
+    :param embedding_positive: A 4-d tensor of size [batch_size/2, H, W, C], the embedding of positive
+    :param reg_lambda: float, the l2-regular factor of N-pair Loss
+    :param equal_shape: boolean, whether shape(embedding_anchor)[0] == shape(embedding_positive)[0]
+    :param half_batch_size: int, if batch size == 128, half_batch_size will be 64
+    :return: The n-pair loss, which equals to npair_loss + reg_lambda*l2_loss
+    """
+    reg_anchor = math_ops.reduce_mean(
+        math_ops.reduce_sum(math_ops.square(embedding_anchor), 1))
+    reg_positive = math_ops.reduce_mean(
+        math_ops.reduce_sum(math_ops.square(embedding_positive), 1))
+    l2loss = math_ops.multiply(
+        0.25 * reg_lambda, reg_anchor + reg_positive, name='l2loss')
+    xent_loss = []
+    if equal_shape:
+        pos_tile = tf.tile(embedding_positive, [half_batch_size, 1], name='pos_tile')
+    else:
+        pos_tile = embedding_positive
+    anc = tf.split(embedding_anchor, half_batch_size, axis=0)
+    pos = tf.split(pos_tile, half_batch_size, axis=0)
+    label2 = tf.split(labels, 2, axis=0)
+    label_anc = tf.reshape(label2[0], [half_batch_size, 1])
+    label_pos = tf.reshape(label2[1], [half_batch_size, 1])
+    label_anc = tf.split(label_anc, half_batch_size, axis=0)
+
+    for i in range(half_batch_size):
+        similarity_matrix = tf.matmul(anc[i], pos[i], transpose_a=False, transpose_b=True)
+        anc_label = tf.reshape(label_anc[i], [1, 1])
+        pos_label = tf.reshape(label_pos, [half_batch_size, 1])
+        labels_remapped = tf.to_float(
+            tf.equal(anc_label, tf.transpose(pos_label))
+        )
+        labels_remapped /= tf.reduce_sum(labels_remapped, 1, keep_dims=True)
+
+        x_loss = tf.nn.softmax_cross_entropy_with_logits(
+            logits=similarity_matrix, labels=labels_remapped
+        )
+        xent_loss.append(x_loss)
+
+    xent_loss = tf.reduce_mean(xent_loss, name='xentrop')
+    r_loss = tf.cond(tf.is_nan(xent_loss + l2loss), lambda: tf.constant(0.), lambda: xent_loss + l2loss)
+    return r_loss
 
 
 def npairs_loss(labels, embeddings_anchor, embeddings_positive,
@@ -451,6 +497,13 @@ def Loss(embedding, label, _lossType="Softmax", loss_l2_reg=FLAGS.loss_l2_reg):
         positive = embedding3[1]
         negative = embedding3[2]
         _Loss = triplet_loss(anchor, positive, negative)
+        
+    elif _lossType == "New_npairLoss":
+        print("Use new NpairLoss")
+        _Loss = new_npair_loss(
+            labels=label, embedding_anchor=embedding_anchor,
+            embedding_positive=embedding_positive, reg_lambda=loss_l2_reg,
+            equal_shape=True, half_batch_size=int(FLAGS.batch_size/2))
 
     return _Loss
 
