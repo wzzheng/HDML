@@ -30,7 +30,7 @@ def Pulling(Loss_type, embedding, Jm):
         embedding_z_quta = tf.concat([anc, neg_tile], axis=0)
         return embedding_z_quta
 
-    elif Loss_type == 'triple-loss':
+    elif Loss_type == 'Triplet':
         embedding_split = tf.split(embedding, 3, axis=0)
         anc = embedding_split[0]
         pos = embedding_split[1]
