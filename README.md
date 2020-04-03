@@ -10,10 +10,11 @@ Please use the citation provided below if it is useful to your research:
 Wenzhao Zheng, Zhaodong Chen, Jiwen Lu, and Jie Zhou, Hardness-Aware Deep Metric Learning, arXiv, abs/1903.05503, 2019. 
 
 ```bash
-@article{zheng2019hardness,
-  title={Hardness-Aware Deep Metric Learning},
+@inproceedings{zheng2019hardness,
+  title={Hardness-aware deep metric learning},
   author={Zheng, Wenzhao and Chen, Zhaodong and Lu, Jiwen and Zhou, Jie},
-  journal={arXiv preprint arXiv:1903.05503},
+  booktitle={Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
+  pages={72--81},
   year={2019}
 }
 ```
